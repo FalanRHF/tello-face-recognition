@@ -23,8 +23,8 @@ class Window(tk.Tk):
         forward_button = tk.Button(self, text="Forward", width=10, command=lambda: self.addCommand("forward"))
         forward_button.place(x=20, y=100)
 
-        backward_button = tk.Button(self, text="Backward", width=10, command=lambda: self.addCommand("backward"))
-        backward_button.place(x=120, y=100)
+        back_button = tk.Button(self, text="back", width=10, command=lambda: self.addCommand("back"))
+        back_button.place(x=120, y=100)
 
         right_button = tk.Button(self, text="Right", width=10, command=lambda: self.addCommand("right"))
         right_button.place(x=220, y=100)
@@ -76,7 +76,7 @@ class Window(tk.Tk):
         #command split -> move + rotate(- +) + liftoff + land + flip + etc
         #switch or if else 
         for x in self.command:
-            if x in ["forward", "backward","right","left","up","down"]:
+            if x in ["forward","back","right","left","up","down"]:
                 # drone.move(x, 20)
                 print(x + " 20cm")
             elif x == "rotate right":
