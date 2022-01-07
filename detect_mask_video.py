@@ -62,7 +62,7 @@ def detect_and_predict_mask(frame, faceNet, maskNet, args):
 			# extract the face ROI, convert it from BGR to RGB channel
 			# ordering, resize it to 224x224, and preprocess it
 			face = frame[startY:endY, startX:endX]
-			face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
+			# face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
 			face = cv2.resize(face, (224, 224))
 			face = img_to_array(face)
 			face = preprocess_input(face)
@@ -85,7 +85,7 @@ def detect_and_predict_mask(frame, faceNet, maskNet, args):
 	return (locs, preds)
 
 def execute(drone):
-	print(drone + " is inside detect_mask_video.py")
+	# print(drone + " is inside detect_mask_video.py")
 	# construct the argument parser and parse the arguments
 	ap = argparse.ArgumentParser()
 	ap.add_argument("-f", "--face", type=str,
@@ -111,15 +111,15 @@ def execute(drone):
 
 	# initialize the video stream and allow the camera sensor to warm up
 	print("[INFO] starting video stream...")
-	vs = VideoStream(src=0).start()
+	# vs = VideoStream(src=0).start()
 	time.sleep(2.0)
 
 	# loop over the frames from the video stream
 	while True:
 		# time.sleep(2.0)
-		frame = vs.read()
-		frame = cv2.resize(frame, (360, 240))
-		# frame = drone.get_frame_read().frame
+		# frame = vs.read()
+		# frame = cv2.resize(frame, (360, 240))
+		frame = drone.get_frame_read().frame
 		frame = imutils.resize(frame, width=400)
 
     # detect faces in the frame and determine if they are wearing a
@@ -157,7 +157,7 @@ def execute(drone):
 
 	# do a bit of cleanup
 	cv2.destroyAllWindows()
-	vs.stop()
+	# vs.stop()
 
 # def init():
 # 	# Run the drone thread

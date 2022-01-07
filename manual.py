@@ -9,7 +9,7 @@ class Window(tk.Tk):
     command = [] #command array
     def __init__(self,drone):
         super().__init__()
-        print(drone + " is inside manual.py")
+        # print(drone + " is inside manual.py")
         self.geometry("720x540")#window size
 
         self.title("Tello Controller")
@@ -47,11 +47,14 @@ class Window(tk.Tk):
         turn_360_button = tk.Button(self, text="Perimeter Check", width=15, command=lambda: self.addCommand("rotate 360"))
         turn_360_button.place(x=100, y=200)
 
+        turn_180_button = tk.Button(self, text="Rotate 180", width=15, command=lambda: self.addCommand("rotate 180"))
+        turn_180_button.place(x=200, y=200)
+
         
-        run_button = tk.Button(self, text="RUN", width=10, command=lambda: self.run())
+        run_button = tk.Button(self, text="RUN", width=10, command=lambda: self.run(drone))
         run_button.place(x=20, y=300)
 
-        land_button = tk.Button(self, text="LAND", width=10, command=lambda: self.land())
+        land_button = tk.Button(self, text="LAND", width=10, command=lambda: self.land(drone))
         land_button.place(x=120, y=300)
 
         clear_button = tk.Button(self, text="CLEAR", width=10, command=lambda: self.clearCommand())
@@ -72,27 +75,36 @@ class Window(tk.Tk):
         self.counter += 1
         self.command.append(direction)
         
-    def run(self):
+    def run(self, drone):
         #command split -> move + rotate(- +) + liftoff + land + flip + etc
         #switch or if else 
+        moveDistance = 50
         for x in self.command:
-            if x in ["forward", "backward","right","left","up","down"]:
-                # drone.move(x, 20)
-                print(x + " 20cm")
+            if x in ["forward","right","left","up","down"]:
+                drone.move(x, moveDistance)
+                print(x + " " + str(moveDistance) + " cm")
+            elif x == "backward":
+                # drone.rotate_counter_clockwise(180)
+                # drone.move("forward", moveDistance)
+                drone.move("back", (moveDistance))
+                print(x + " " + str(moveDistance) + " cm")
             elif x == "rotate right":
-                # drone.rotate_clockwise(90)
+                drone.rotate_clockwise(90)
                 print(x)
             elif x == "rotate left":
-                # drone.rotate_counter_clockwise(90)
+                drone.rotate_counter_clockwise(90)
                 print(x)
             elif x == "rotate 360":
-                # drone.rotate_counter_clockwise(360)
+                drone.rotate_counter_clockwise(360)
+                print(x)
+            elif x == "rotate 180":
+                drone.rotate_counter_clockwise(180)
                 print(x)
         
         self.clearCommand()
     
-    def land(self):
-        # drone.land()
+    def land(self, drone):
+        drone.land()
         print("landing")
         # self.destroy()
 
