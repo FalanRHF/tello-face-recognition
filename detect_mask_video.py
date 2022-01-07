@@ -116,10 +116,16 @@ def execute(drone):
 
 	# loop over the frames from the video stream
 	while True:
-		# time.sleep(2.0)
+		# 30fps
+		time.sleep(1/30)
+		
 		# frame = vs.read()
 		# frame = cv2.resize(frame, (360, 240))
-		frame = drone.get_frame_read().frame
+		try:
+			frame = drone.get_frame_read().frame
+		except Exception as e:
+			print('THE ERROR MF:',e)
+
 		frame = imutils.resize(frame, width=400)
 
     # detect faces in the frame and determine if they are wearing a
