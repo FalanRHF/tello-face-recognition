@@ -84,9 +84,10 @@ def detect_and_predict_mask(frame, faceNet, maskNet, args):
 	# locations
 	return (locs, preds)
 
-def execute(drone):
+def execute(drone, q):
 	# print(drone + " is inside detect_mask_video.py")
 	# construct the argument parser and parse the arguments
+	# q.put('Falan Sayang')
 	ap = argparse.ArgumentParser()
 	ap.add_argument("-f", "--face", type=str,
 		default="face_detector",
@@ -111,7 +112,7 @@ def execute(drone):
 
 	# initialize the video stream and allow the camera sensor to warm up
 	print("[INFO] starting video stream...")
-	# vs = VideoStream(src=0).start()
+	vs = VideoStream(src=0).start()
 	time.sleep(2.0)
 
 	# loop over the frames from the video stream
@@ -119,12 +120,12 @@ def execute(drone):
 		# 30fps
 		time.sleep(1/30)
 		
-		# frame = vs.read()
-		# frame = cv2.resize(frame, (360, 240))
-		try:
-			frame = drone.get_frame_read().frame
-		except Exception as e:
-			print('THE ERROR MF:',e)
+		frame = vs.read()
+		frame = cv2.resize(frame, (360, 240))
+		# try:
+		# 	frame = drone.get_frame_read().frame
+		# except Exception as e:
+		# 	print('THE ERROR MF:',e)
 
 		frame = imutils.resize(frame, width=400)
 
@@ -134,6 +135,8 @@ def execute(drone):
 
     # loop over the detected face locations and their corresponding
 		# locations
+		label=''
+
 		for (box, pred) in zip(locs, preds):
         # unpack the bounding box and predictions
 				(startX, startY, endX, endY) = box
@@ -142,6 +145,8 @@ def execute(drone):
         # determine the class label and color we'll use to draw
         # the bounding box and text
 				label = "Mask" if mask > withoutMask else "No Mask"
+
+				
 				color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
 
         # include the probability in the label
@@ -152,8 +157,11 @@ def execute(drone):
 				cv2.putText(frame, label, (startX, startY - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
 				cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+
 		# show the output frame
 		# show the output frame
+		if "No Mask" in label: 
+				q.put(frame)
 		cv2.imshow("Frame", frame)
 		key = cv2.waitKey(1) & 0xFF
 
@@ -163,7 +171,7 @@ def execute(drone):
 
 	# do a bit of cleanup
 	cv2.destroyAllWindows()
-	# vs.stop()
+	vs.stop()
 
 # def init():
 # 	# Run the drone thread

@@ -19,45 +19,15 @@ class Window(tk.Tk):
         self.label.pack(side=tk.TOP, padx=10, pady=10)
 
         #buttons
-        forward_button = tk.Button(self, text="Forward", width=10, command=lambda: self.addCommand("forward"))
-        forward_button.place(x=20, y=100)
-
-        back_button = tk.Button(self, text="back", width=10, command=lambda: self.addCommand("back"))
-        back_button.place(x=120, y=100)
-
-        right_button = tk.Button(self, text="Right", width=10, command=lambda: self.addCommand("right"))
-        right_button.place(x=220, y=100)
-
-        left_button = tk.Button(self, text="Left", width=10, command=lambda: self.addCommand("left"))
-        left_button.place(x=320, y=100)
-
-        up_button = tk.Button(self, text="Up", width=10, command=lambda: self.addCommand("up"))
-        up_button.place(x=20, y=150)
-
-        down_button = tk.Button(self, text="Down", width=10, command=lambda: self.addCommand("down"))
-        down_button.place(x=120, y=150)
-
-        turn_left_button = tk.Button(self, text="Turn Left", width=10, command=lambda: self.addCommand("rotate left"))
-        turn_left_button.place(x=220, y=150)
-
-        turn_right_button = tk.Button(self, text="Turn Right", width=10, command=lambda: self.addCommand("rotate right"))
-        turn_right_button.place(x=320, y=150)
-
-        turn_360_button = tk.Button(self, text="Perimeter Check", width=15, command=lambda: self.addCommand("rotate 360"))
-        turn_360_button.place(x=100, y=200)
-
-        turn_180_button = tk.Button(self, text="Rotate 180", width=15, command=lambda: self.addCommand("rotate 180"))
-        turn_180_button.place(x=200, y=200)
-
         
-        run_button = tk.Button(self, text="RUN", width=10, command=lambda: self.run(drone))
-        run_button.place(x=20, y=300)
+        start_button = tk.Button(self, text="START", width=10, command=lambda: self.run(drone))
+        start_button.place(x=20, y=300)
 
-        land_button = tk.Button(self, text="LAND", width=10, command=lambda: self.land(drone))
-        land_button.place(x=120, y=300)
+        stop_button = tk.Button(self, text="STOP", width=10, command=lambda: self.land(drone))
+        stop_button.place(x=120, y=300)
 
-        clear_button = tk.Button(self, text="CLEAR", width=10, command=lambda: self.clearCommand())
-        clear_button.place(x=220, y=300)
+        override_button = tk.Button(self, text="OVERRIDE", width=10, command=lambda: self.clearCommand())
+        override_button.place(x=220, y=300)
 
         # scroll bar
         self.scrollbar = tk.Scrollbar()
@@ -104,9 +74,7 @@ class Window(tk.Tk):
 
         
     def clearCommand(self):
-        self.command.clear()
-        print("Command array:", self.command)
-        self.commandList.delete(0, tk.END)
+        self.destroy()
 
 # if __name__ == "__main__":
 #     # drone = tello.Tello()
@@ -117,8 +85,8 @@ class Window(tk.Tk):
 #     window = Window()
 #     window.mainloop()
 
-def startWindow(drone, q):
-  window = Window(drone, q)
+def startWindow(drone):
+  window = Window(drone)
   window.mainloop()
 
 def init(drone):

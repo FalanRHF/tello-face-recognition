@@ -1,6 +1,9 @@
 import manual
+import passframe
+import predefined
 import detect_mask_video
 import time
+import queue
 from djitellopy import Tello
 from threading import Thread
 
@@ -8,35 +11,36 @@ from threading import Thread
 def initGui():
   print("initGUI()")
   global finish
-  manual.startWindow(drone)
+  # predefined.startWindow(drone)
+  passframe.startWindow(drone, q)
 
   finish = True
 
 def initVideo():
   print("initVideo()")
-  detect_mask_video.execute(drone)
+  detect_mask_video.execute(drone, q)
 #   while not finish:
 #       print('hello bois')
 
 if __name__ == "__main__":
 
-    drone = Tello()
-    drone.connect()
-    print(drone.get_battery())
-    drone.streamon()
-
+    # drone = Tello()
+    # drone.connect()
+    # print(drone.get_battery())
+    # drone.streamon()
+    q=queue.Queue()
     # Run video thread after turning on video stream
-    # videoThread = Thread(target=initVideo)
-    # videoThread.start()
+    videoThread = Thread(target=initVideo)
+    videoThread.start()
 
-    drone.takeoff()
-    # drone = 'This drone'
+    # drone.takeoff()
+    drone = 'This drone'
     finish = False
     GUIThread = Thread(target=initGui)
     GUIThread.start()
     
     GUIThread.join()
-    # videoThread.join()
+    videoThread.join()
     # manual.init(drone)
   # detect_mask_video.init()
 
@@ -64,6 +68,5 @@ https://www.geeksforgeeks.org/python-communicating-between-threads-set-1/
 
 
 """
-
 
 
