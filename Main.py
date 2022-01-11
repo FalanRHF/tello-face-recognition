@@ -1,5 +1,5 @@
 import manual
-import detect_mask_video
+# import detect_mask_video
 import time
 from djitellopy import tello
 from threading import Thread
@@ -14,7 +14,7 @@ def initGui():
 
 def initVideo():
   print("initVideo()")
-  detect_mask_video.execute(drone)
+  # detect_mask_video.execute(drone)
 #   while not finish:
 #       print('hello bois')
 
@@ -29,11 +29,11 @@ if __name__ == "__main__":
     GUIThread = Thread(target=initGui)
     GUIThread.start()
 
-    videoThread = Thread(target=initVideo)
-    videoThread.start()
-    
+    # videoThread = Thread(target=initVideo)
+    # videoThread.start()
+    #
     GUIThread.join()
-    videoThread.join()
+    # videoThread.join()
     # manual.init(drone)\
   # detect_mask_video.init()
 
