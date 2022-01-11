@@ -17,8 +17,14 @@ class Window(tk.Tk):
         super().__init__()
         print(drone + " is inside manual.py")
         self.title("Tello Controller")
-        self.geometry("1000x540")#window size
+        # self.geometry("1000x540")#window size
         self.configure(background='#434343')
+
+        self.width, self.height = 900, 600
+        self.screen_width = self.winfo_screenwidth()
+        self.screen_height = self.winfo_screenheight()
+        self.center_window_on_screen()
+
         # Setting Theme
         style = ThemedStyle(self)
         style.set_theme("equilux")
@@ -71,7 +77,7 @@ class Window(tk.Tk):
         self.commandList.config(yscrollcommand=self.scrollbar.set)
         self.scrollbar.config(command=self.commandList.yview)
 
-        #matplotlib figure and canvas
+        # #matplotlib figure and canvas
         self.fig = Figure(figsize=(5, 5),dpi=100)
         self.fig.patch.set_facecolor('#434343')
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
@@ -98,16 +104,18 @@ class Window(tk.Tk):
         #command split -> move + rotate(- +) + liftoff + land + flip + etc
         #switch or if else
         self.clearPlots()
+        self.clearPlots()
+        self.clearPlots()
         for x in self.command:
-            time.sleep(0.5)
+            time.sleep(0.05)
             if x in ["forward","back","right","left","up","down"]:
                 # drone.move(x, 20)
                 print(x + " 20cm")
             elif x == "rotate right":
-                # drone.rotate_clockwise(90)
+                # drone.rotate_clockwise(15)
                 print(x)
             elif x == "rotate left":
-                # drone.rotate_counter_clockwise(90)
+                # drone.rotate_counter_clockwise(15)
                 print(x)
             elif x == "rotate 360":
                 # drone.rotate_counter_clockwise(360)
@@ -128,13 +136,13 @@ class Window(tk.Tk):
         print("Command array:", self.command)
         self.commandList.delete(0, tk.END)
         self.clearPlots()
+        self.counter=1
     def clearPlots(self):
         for line in self.plot1.lines:
             line.set_marker(None)
         for line in self.plot1.lines:
             for line in self.plot1.lines:
                 line.remove()
-
         self.canvas.draw()
         self.x, self.y, self.preX, self.preY, self.graphAngle = 0, 0, 0, 0, 0
 
@@ -159,6 +167,8 @@ class Window(tk.Tk):
             self.graphAngle -= 15
             # tempAngle = self.graphAngle
             return None
+        elif direction in ["up", "down","rotate 360"]:
+            return None
 
         #handle rotation only
         hypo = 20
@@ -181,6 +191,10 @@ class Window(tk.Tk):
         # toolbar = NavigationToolbar2Tk(self.canvas, self)
         # toolbar.update()
 
+    def center_window_on_screen(self):
+        x_cord = int((self.screen_width / 2) - (self.width / 2))
+        y_cord = int((self.screen_height / 2) - (self.height / 2))
+        self.geometry("{}x{}+{}+{}".format(self.width, self.height, x_cord, y_cord))
 # if __name__ == "__main__":
 #     # drone = tello.Tello()
 #     # drone.connect()
