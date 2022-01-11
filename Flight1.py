@@ -1,7 +1,7 @@
 import tello
 
-# Billy
-billy = tello.Tello()
+# drone
+drone = tello.Tello()
 
 # Each leg of the box will be 100 cm. Tello uses cm units by default.
 box_leg_distance = 100
@@ -13,29 +13,29 @@ yaw_angle = 90
 yaw_direction = "ccw"
 
 # Put Tello into command mode
-billy.send("command", 3)
+drone.send("command", 3)
 
 
 # Send the takeoff command
-billy.send("takeoff", 5)
+drone.send("takeoff", 5)
 
 # Fly box pattern
-billy.send("forward " + str(box_leg_distance), 4)
-billy.send("ccw " + str(yaw_angle), 3)
-billy.send("forward " + str(box_leg_distance), 4)
-billy.send("ccw " + str(yaw_angle), 3)
-billy.send("forward " + str(box_leg_distance), 4)
-billy.send("ccw " + str(yaw_angle), 3)
-billy.send("forward " + str(box_leg_distance), 4)
-billy.send("ccw " + str(yaw_angle), 3)
-billy.send("forward " + str(box_leg_distance), 4)
-billy.send("ccw " + str(yaw_angle), 3)
+drone.send("forward " + str(box_leg_distance), 4)
+drone.send("ccw " + str(yaw_angle), 3)
+drone.send("forward " + str(box_leg_distance), 4)
+drone.send("ccw " + str(yaw_angle), 3)
+drone.send("forward " + str(box_leg_distance), 4)
+drone.send("ccw " + str(yaw_angle), 3)
+drone.send("forward " + str(box_leg_distance), 4)
+drone.send("ccw " + str(yaw_angle), 3)
+drone.send("forward " + str(box_leg_distance), 4)
+drone.send("ccw " + str(yaw_angle), 3)
 
 # Special : Flip backwards
-billy.send("flip b ", 4)
+drone.send("flip b ", 4)
 
 # Send the land command
-billy.send("land ", 4)
+drone.send("land ", 4)
 
 
 
@@ -43,4 +43,4 @@ billy.send("land ", 4)
 print("Mission completed successfully!")
 
 # Close the socket
-billy.sock.close()
+drone.sock.close()
