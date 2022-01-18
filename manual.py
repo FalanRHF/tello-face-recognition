@@ -1,13 +1,10 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-import tkinter.messagebox as msgbox
-from djitellopy import tello
 from threading import Thread
 import time
 import math
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
-from weakref import ref
 from ttkthemes import ThemedStyle
 
 class Window(tk.Tk):
